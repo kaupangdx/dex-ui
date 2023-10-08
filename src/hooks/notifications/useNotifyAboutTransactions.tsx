@@ -131,6 +131,17 @@ export const transactionToMessage = (
               .toFixed(2)}{" "}
             {tokens[transaction.details.tokenOutId].ticker}
           </b>
+          {transaction.error ? (
+            <>
+              <br />
+              <Text
+                color={"red"}
+                weight={"bold"}
+              >{`${transaction.error}`}</Text>
+            </>
+          ) : (
+            <></>
+          )}
         </>
       );
     case "buy":
@@ -150,6 +161,17 @@ export const transactionToMessage = (
               .toFixed(2)}{" "}
             {tokens[transaction.details.tokenInId].ticker}
           </b>
+          {transaction.error ? (
+            <>
+              <br />
+              <Text
+                color={"red"}
+                weight={"bold"}
+              >{`${transaction.error}`}</Text>
+            </>
+          ) : (
+            <></>
+          )}
         </>
       );
   }
