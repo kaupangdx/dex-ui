@@ -91,5 +91,10 @@ export const useBalance = ({
       fetchBalance(address, tokenId);
   }, [address, fetchBalance, tokenId, chain.started, chain.block.height]);
 
-  return useMemo(() => balance ?? { loading: true }, [balance]);
+  return useMemo(
+    () =>
+      balance ??
+      (chain.started && address ? { loading: true } : { loading: false }),
+    [balance]
+  );
 };

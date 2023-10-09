@@ -280,10 +280,11 @@ export const TradeForm: React.FC<TradeFormProps> = ({
               <Group spacing={"0.45rem"} opacity={0.5}>
                 <Skeleton visible={userBalanceA.loading}>
                   <Text color={"dimmed"} size={"xs"} weight={"bold"}>
-                    {form.values.tokenIn ? (
+                    {form.values.tokenIn &&
+                    (userBalanceA.loading || userBalanceA.value) ? (
                       <>
                         Balance:{" "}
-                        {formatBalanceDecimals(userBalanceA.value) ?? "0"}{" "}
+                        {formatBalanceDecimals(userBalanceA.value) ?? "-"}{" "}
                         {tokens[form.values.tokenIn!]?.ticker}
                       </>
                     ) : (
@@ -386,7 +387,8 @@ export const TradeForm: React.FC<TradeFormProps> = ({
               <Group spacing={"0.45rem"} opacity={0.5}>
                 <Skeleton visible={userBalanceB.loading}>
                   <Text color={"dimmed"} size={"xs"} weight={"bold"}>
-                    {form.values.tokenOut ? (
+                    {form.values.tokenOut &&
+                    (userBalanceB.loading || userBalanceB.value) ? (
                       <>
                         Balance:{" "}
                         {formatBalanceDecimals(userBalanceB.value) ?? "0"}{" "}

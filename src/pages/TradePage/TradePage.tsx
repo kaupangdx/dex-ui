@@ -108,7 +108,8 @@ export const TradePage = () => {
   useEffect(() => {
     if (tradeType === "sell") {
       (async () => {
-        if (!balanceA.value || !balanceB.value) return;
+        if (!balanceA.value || !balanceB.value || !form.values.tokenInAmount)
+          return;
         const tokenOutAmountOut =
           await api.calculateTokenOutAmountOutFromReserves(
             balanceA.value,
@@ -129,7 +130,8 @@ export const TradePage = () => {
 
     if (tradeType === "buy") {
       (async () => {
-        if (!balanceA.value || !balanceB.value) return;
+        if (!balanceA.value || !balanceB.value || !form.values.tokenOutAmount)
+          return;
         const tokenInAmountIn = await api.calculateTokenInAmountInFromReserves(
           balanceA.value,
           balanceB.value,
@@ -155,9 +157,9 @@ export const TradePage = () => {
   ]);
 
   const handleSubmit = useCallback(
-    (tradeLimit: string, values: TradeFormFields) => {
+    async (tradeLimit: string, values: TradeFormFields) => {
       if (tradeType === "sell") {
-        sell(
+        await sell(
           address!,
           values.tokenIn!,
           values.tokenOut!,
@@ -169,7 +171,7 @@ export const TradePage = () => {
       }
 
       if (tradeType === "buy") {
-        buy(
+        await buy(
           address!,
           values.tokenIn!,
           values.tokenOut!,
@@ -179,6 +181,9 @@ export const TradePage = () => {
           new BigNumber(tradeLimit).multipliedBy(Math.pow(10, 2)).toFixed(0)
         );
       }
+
+      form.setFieldValue("tokenInAmount", "");
+      form.setFieldValue("tokenOutAmount", "");
     },
     [address, tradeType]
   );

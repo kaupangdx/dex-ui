@@ -114,12 +114,21 @@ async function mint(
 }
 
 async function produceBlock() {
-  console.time("block");
-
   const mempool = chain.sequencer.resolveOrFail("Mempool", PrivateMempool);
 
-  const block = await chain.produceBlock();
-  console.timeEnd("block");
+  if (!mempool.getTxs().txs.length) {
+    return;
+  }
+
+  let block;
+
+  console.time("block");
+  try {
+    block = await chain.produceBlock();
+  } finally {
+    console.timeEnd("block");
+  }
+
   return block?.txs.map((transaction) => ({
     hash: transaction.tx.hash().toString(),
     status: transaction.status,

@@ -143,7 +143,6 @@ export const createChainStore: ImmerStateCreator<ChainStore> = (
         minTokenBAmountOut
       );
     } catch (e) {
-      console.error("failed to send", e);
       get().pushTransaction({
         type: "sell",
         status: "send-failed",
@@ -154,6 +153,8 @@ export const createChainStore: ImmerStateCreator<ChainStore> = (
           minTokenBAmountOut,
         },
       });
+      e && console.error(e);
+      throw new Error("Failed to send transaction");
     }
 
     if (hash) {
@@ -188,7 +189,6 @@ export const createChainStore: ImmerStateCreator<ChainStore> = (
         maxTokenBAmountIn
       );
     } catch (e) {
-      console.error(e);
       get().pushTransaction({
         type: "buy",
         status: "send-failed",
@@ -199,6 +199,8 @@ export const createChainStore: ImmerStateCreator<ChainStore> = (
           maxTokenBAmountIn,
         },
       });
+      e && console.error(e);
+      throw new Error("Failed to send transaction");
     }
 
     if (hash) {

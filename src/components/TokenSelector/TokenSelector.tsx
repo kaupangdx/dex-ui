@@ -104,8 +104,9 @@ export const TokenSelector: React.FC<TokenSelectorProps> = ({
             placeholder={"Find token by name"}
           /> */}
           <Stack>
-            {Object.values(tokens).map((token) => (
+            {Object.values(tokens).map((token, i) => (
               <Paper
+                key={i}
                 onClick={() => {
                   onSelect(token.id);
                   onClose();
